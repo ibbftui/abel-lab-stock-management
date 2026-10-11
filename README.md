@@ -8,13 +8,23 @@ Project ini terdiri dari dua bagian utama: **backend** dan **frontend**.
 - `frontend/` → UI aplikasi untuk pengguna lab
 
 ## ⚙️ Teknologi yang digunakan
-- Backend: Node.js / Express (opsional: tambahkan database seperti MySQL/PostgreSQL)
-- Frontend: React + TailwindCSS
-- Version Control: Git & GitHub
+- Backend: Laravel + PostgreSQL
+- Frontend: React
+- Deployment: satu proyek Vercel dari root repository
 
 ## 🚀 Cara Menjalankan
 ### Backend
 ```bash
 cd backend
+composer install
+php artisan serve
+```
+
+### Frontend
+```bash
+cd frontend
 npm install
 npm start
+```
+
+Panduan deploy ada di [DEPLOY.md](./DEPLOY.md).

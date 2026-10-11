@@ -1,0 +1,10 @@
+{
+    "name": "ibbftui/abel-lab-stock-management-deploy",
+    "private": true,
+    "require": {
+        "php": "^8.3"
+    },
+    "scripts": {
+        "vercel": "cd backend && composer install --no-dev --optimize-autoloader"
+    }
+}
