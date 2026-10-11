@@ -18,28 +18,10 @@ php artisan key:generate --show
 1. Di Vercel, pilih **Add New Project** lalu import repository ini.
 2. Biarkan **Root Directory** di root repository (`./`), jangan pilih `frontend/` atau `backend/`.
 3. Biarkan konfigurasi build mengikuti `vercel.json` di repository.
-4. Tambahkan environment variables berikut untuk environment yang akan digunakan (Production dan Preview bila diperlukan):
+4. Untuk memasukkan environment variables sekaligus, buka **Settings → Environment Variables → Bulk Edit** dan paste isi file `backend/.env.vercel`. File tersebut dibuat lokal dari konfigurasi di `backend/.env` dan tidak masuk Git.
+5. Ganti nilai `APP_URL` di file itu dengan URL proyek Vercel yang sebenarnya, lalu pilih environment yang akan digunakan (Production dan Preview bila diperlukan).
 
-| Variable | Value |
-|---|---|
-| `APP_NAME` | `Laboratorium IBB` |
-| `APP_ENV` | `production` |
-| `APP_KEY` | Hasil `php artisan key:generate --show` |
-| `APP_DEBUG` | `false` |
-| `APP_URL` | URL proyek Vercel, misalnya `https://nama-proyek.vercel.app` |
-| `DB_CONNECTION` | `pgsql` |
-| `DB_HOST` | Host PostgreSQL dari provider |
-| `DB_PORT` | `5432` |
-| `DB_DATABASE` | Nama database |
-| `DB_USERNAME` | Username database |
-| `DB_PASSWORD` | Password database |
-| `DB_SSLMODE` | `require` |
-| `CI` | `false` |
-| `GENERATE_SOURCEMAP` | `false` |
-
-Simpan rahasia seperti `APP_KEY` dan `DB_PASSWORD` hanya di Vercel Environment Variables, jangan di-commit ke repository. `APP_URL` harus memakai URL deployment yang sebenarnya.
-
-Setelah mengatur variabel, klik **Deploy**. Perubahan source code berikutnya cukup di-push ke repository; Vercel akan membangun dan menerbitkan frontend serta API bersama-sama.
+File impor berisi rahasia database dan `APP_KEY`. Jangan commit atau bagikan file itu; rahasia hanya akan dimasukkan ke Vercel saat kamu paste. Setelah mengatur variabel, klik **Deploy**. Perubahan source code berikutnya cukup di-push ke repository; Vercel akan membangun dan menerbitkan frontend serta API bersama-sama.
 
 ## Konfigurasi yang sudah disiapkan
 
