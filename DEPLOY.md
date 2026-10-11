@@ -28,7 +28,7 @@ File impor berisi rahasia database dan `APP_KEY`. Jangan commit atau bagikan fil
 - Frontend dilayani pada URL proyek Vercel.
 - Endpoint Laravel tetap tersedia pada URL yang sama dengan prefix `/api`.
 - Frontend memakai `/api` secara otomatis di production. Jangan isi `REACT_APP_API_URL` dengan URL backend terpisah.
-- Pengaturan cache sementara, session, dan runtime Laravel sudah ada di `vercel.json`. Folder sementara yang diperlukan Laravel disiapkan sebelum Composer dijalankan.
+- Path cache `/tmp` Laravel baru diatur saat API dijalankan. Script build menghapus override path cache dari environment Vercel, sehingga Composer memakai folder `backend/bootstrap/cache` di repository dan tidak bergantung pada folder `/tmp` yang belum tersedia.
 - Karena frontend memanggil API pada origin yang sama, tidak perlu mengatur CORS ke URL proyek frontend yang terpisah.
 
 ## Verifikasi

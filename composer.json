@@ -5,6 +5,6 @@
         "php": "^8.3"
     },
     "scripts": {
-        "vercel": "mkdir -p /tmp/storage/framework/views /tmp/storage/framework/sessions /tmp/storage/framework/cache /tmp/storage/framework/cache/data /tmp/storage/logs /tmp/bootstrap/cache && cd backend && composer install --no-dev --optimize-autoloader"
+        "vercel": "unset APP_CONFIG_CACHE APP_EVENTS_CACHE APP_PACKAGES_CACHE APP_ROUTES_CACHE APP_SERVICES_CACHE VIEW_COMPILED_PATH && cd backend && composer install --no-dev --optimize-autoloader"
     }
 }
