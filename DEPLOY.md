@@ -1,6 +1,6 @@
 # Deploy Lab Stock Management ke Vercel
 
-Frontend React dan backend Laravel dideploy sebagai **satu proyek Vercel** dari root repository. File [vercel.json](./vercel.json) membangun frontend dan mengarahkan `/api/*` ke backend; [composer.json](./composer.json) memasang dependency Laravel dari folder `backend/`.
+Frontend React dan backend Laravel dideploy sebagai **satu proyek Vercel** dari root repository. Karena runtime PHP Vercel saat ini memerlukan patch kompatibilitas saat startup, deployment production dijalankan oleh GitHub Actions. File [vercel.json](./vercel.json) membangun frontend dan mengarahkan `/api/*` ke backend; [composer.json](./composer.json) memasang dependency Laravel dari folder `backend/`.
 
 ## 1. Siapkan database dan APP_KEY
 
@@ -15,14 +15,25 @@ php artisan key:generate --show
 
 ## 2. Buat satu proyek Vercel
 
-1. Di Vercel, pilih **Add New Project** lalu import repository ini.
-2. Biarkan **Root Directory** di root repository (`./`), jangan pilih `frontend/` atau `backend/`.
-3. Di **Settings → Build and Deployment → Node.js Version**, pilih **22.x**. Runtime PHP yang digunakan aplikasi (`vercel-php@0.9.0`) mensyaratkan Node.js 22.
-4. Biarkan konfigurasi build mengikuti `vercel.json` di repository.
-5. Untuk memasukkan environment variables sekaligus, buka **Settings → Environment Variables → Bulk Edit** dan paste isi file `backend/.env.vercel`. File tersebut dibuat lokal dari konfigurasi di `backend/.env` dan tidak masuk Git.
-6. Ganti nilai `APP_URL` di file itu dengan URL proyek Vercel yang sebenarnya, lalu pilih environment yang akan digunakan (Production dan Preview bila diperlukan).
+1. Di Vercel, pilih **Add New Project** lalu import repository ini. Biarkan **Root Directory** di root (`./`), jangan pilih `frontend/` atau `backend/`.
+2. Di **Settings → Build and Deployment → Node.js Version**, pilih **22.x**.
+3. Untuk memasukkan environment variables sekaligus, buka **Settings → Environment Variables → Bulk Edit** dan paste isi file `backend/.env.vercel`. File tersebut dibuat lokal dari konfigurasi di `backend/.env` dan tidak masuk Git.
+4. Ganti nilai `APP_URL` di file itu dengan URL proyek Vercel yang sebenarnya, lalu simpan variabel untuk Production.
+5. Jika repository sudah terhubung ke Vercel, nonaktifkan deployment otomatis dari **Settings → Git** setelah setup selesai. GitHub Actions akan membuat build dan deployment Production yang sudah di-patch; deployment otomatis Vercel tidak memakai patch tersebut.
 
-File impor berisi rahasia database dan `APP_KEY`. Jangan commit atau bagikan file itu; rahasia hanya akan dimasukkan ke Vercel saat kamu paste. Setelah mengatur variabel, klik **Deploy**. Perubahan source code berikutnya cukup di-push ke repository; Vercel akan membangun dan menerbitkan frontend serta API bersama-sama.
+### Hubungkan GitHub Actions ke Vercel
+
+Di GitHub repository, buka **Settings → Secrets and variables → Actions** dan tambahkan tiga repository secrets:
+
+| Secret | Nilai |
+|---|---|
+| `VERCEL_TOKEN` | Token dari Vercel **Account Settings → Tokens** |
+| `VERCEL_ORG_ID` | `orgId` dari file lokal `.vercel/project.json` |
+| `VERCEL_PROJECT_ID` | `projectId` dari file lokal `.vercel/project.json` |
+
+File `.vercel/project.json` dibuat dengan menjalankan `vercel link` dari root repository. Jangan commit file tersebut atau bagikan token. Setelah workflow `Deploy to Vercel` ditambahkan ke branch `main`, push ke branch tersebut akan membangun, memperbaiki kompatibilitas PHP runtime, dan deploy ke Production. Kamu juga bisa menjalankannya manual lewat tab **Actions** di GitHub.
+
+File impor berisi rahasia database dan `APP_KEY`. Jangan commit atau bagikan file itu; rahasia hanya akan dimasukkan ke Vercel saat kamu paste.
 
 ## 3. Inisialisasi database production
 
